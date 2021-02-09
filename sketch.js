@@ -12,7 +12,7 @@ var gameState=PLAY;
 var restart,restart_image;
 var gameOver,gameOver_image; 
 
-var pos = trex.position.x;
+var pos,canvas,asdf ;
 
 function preload(){
   trex_running = loadAnimation("images/trex1.png","images/trex3.png","images/trex4.png");
@@ -34,7 +34,10 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(600, 200);
+  canvas = createCanvas(600, 200);
+
+  asdf = createSprite(300,100,600,200);
+  asdf.visible = false;
   
   trex = createSprite(50,50,20,50);
   trex.addAnimation("running", trex_running);
@@ -70,8 +73,11 @@ function draw() {
   pos = trex.position.x;
   gameOver.position.x = pos+250;
   restart.position.x = pos+250;
+  trex.setCollider("circle",0,0,40);
 
   trex.velocityX = 6;
+
+  asdf.position.x = pos + 250;
 
   camera.position.x = trex.position.x + 250;
 
@@ -83,8 +89,12 @@ function draw() {
     
     
   if(keyDown("space")&&trex.y>159) {
-    trex.velocityY = -13;
+    trex.velocityY = -12;
+  }   
+  if(mousePressedOver(asdf)&&trex.y>159) {
+    trex.velocityY = -12;
   }      
+
   trex.velocityY = trex.velocityY + 0.8
   
   if((pos-50)%1620 == 0 && pos!=0){
